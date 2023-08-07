@@ -1,0 +1,19 @@
+.container{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	.header{
+		// background-color: red;
+	}
+
+	.body{
+		flex-grow: 1;
+		overflow: auto;
+	}
+
+	.footer{
+		// background-color: green;
+	}
+}
