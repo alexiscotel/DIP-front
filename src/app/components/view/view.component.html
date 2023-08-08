@@ -1,6 +1,16 @@
 <app-layout actionAlign="end">
-	<div class="header">DIP [id]</div>
+	<div class="header">
+		<h2>
+			<span *ngIf="test">"{{ test.label }}"</span>
+			<span>DIP [id]</span>
+		</h2>
+	</div>
 	<div class="body">
 
+		<div class="infos">
+
+		</div>
+
+		<img *ngIf="test && test.image" class="dip-img" [src]="test.image" alt="">
 	</div>
 </app-layout>

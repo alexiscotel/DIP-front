@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { DIPTest } from 'src/app/core/interfaces';
 
 @Component({
   selector: 'app-view',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class ViewComponent {
 
+	@Input() test: DIPTest | undefined;
 }

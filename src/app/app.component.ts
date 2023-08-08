@@ -1,37 +1,39 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-
-
-export interface Tile {
-	color: string;
-	cols: number;
-	rows: number;
-	text: string;
-}
+import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, OnInit } from '@angular/core';
+import { DIPTest } from './core/interfaces';
+import { DATA_TESTS } from './core/data';
+import { MainService } from './core/main.service';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-	
-	@ViewChild('header') header: ElementRef | undefined;
-	@ViewChild('body') body: ElementRef | undefined;
+export class AppComponent implements OnInit {
+	isLoading = false;
 
-	constructor(private renderer: Renderer2) {}
+	tests: DIPTest[] = DATA_TESTS;
+	selectedTest: DIPTest | undefined;
 
-	ngAfterViewInit() {
-		// if(!this.header || !this.body) return;
+	constructor(private mainService: MainService) { }
 
-		// var headerHeight = this.header.nativeElement.offsetHeight;
-
-		// // var bodyHeight = this.body.nativeElement.offsetHeight;
-	   
-		// console.log('headerHeight:' + headerHeight);
-		// const bodyHeight = window.innerHeight - headerHeight;
-		// // console.log('bodyHeight: ' + bodyHeight);
-
-		// this.renderer.setStyle(this.body.nativeElement, 'height', bodyHeight+'px');
+	ngOnInit(): void {
+		this.isLoading = true;
+		this.mainService.getTests().subscribe((tests) => {
+			console.log('tests', tests);
+			this.tests = tests;
+			this.isLoading = false;
+		});
 	}
 
+	onSelectChange(test: DIPTest): void {
+		this.selectedTest = test;
+	}
+
+	onStartTest(test: DIPTest): void {
+		console.log('onStartTest', test);
+	}
+	onStopTest(test: DIPTest): void {
+		console.log('onStopTest', test);
+	}
 }

@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,23 +13,29 @@ import { StepsComponent } from './components/steps/steps.component';
 import { ViewComponent } from './components/view/view.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { MainService } from './core/main.service';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
 	declarations: [
 		AppComponent,
-  		ToolbarComponent,
+		LayoutComponent,
+		ToolbarComponent,
+		FooterComponent,
 		LogsComponent,
 		StepsComponent,
 		ViewComponent,
-  		LayoutComponent,
-    FooterComponent,
 	],
 	imports: [
+		HttpClientModule,
 		BrowserModule,
+		BrowserAnimationsModule,
 		AppRoutingModule,
-		MaterialModule
+		MaterialModule,
+		FormsModule, ReactiveFormsModule,
 	],
-	providers: [],
+	providers: [MainService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

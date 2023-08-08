@@ -1,12 +1,17 @@
 <app-layout actionAlign="start">
-	<div class="header">Logs</div>
+	<div class="header">
+		<h2>
+			<span *ngIf="test">"{{ test.label }}"</span>
+			Logs
+		</h2>
+	</div>
 	<div class="body">
-
+		<pre> {{fileContent}} </pre>
 	</div>
 	<div class="actions">
 		<button mat-button>Refresh</button>
 	</div>
 	<div class="footer">
-		<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+		<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 	</div>
 </app-layout>
