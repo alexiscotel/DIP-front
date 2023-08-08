@@ -1,0 +1,14 @@
+<mat-card class="layout-container">
+	<mat-card-header class="layout-header" *ngIf="hasHeader()">
+		<ng-content select=".header" #header></ng-content>
+	</mat-card-header>
+	<mat-card-content class="layout-content" *ngIf="hasBody()">
+		<ng-content select=".body" #body></ng-content>
+	</mat-card-content>
+	<mat-card-actions *ngIf="hasActions()" [align]="actionAlign">
+		<ng-content select=".actions" #actions></ng-content>
+	</mat-card-actions>
+	<mat-card-footer class="layout-footer" *ngIf="hasFooter()">
+		<ng-content select=".footer" #footer></ng-content>
+	</mat-card-footer>
+</mat-card>
