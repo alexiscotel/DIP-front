@@ -11,6 +11,8 @@ import { environment } from 'src/app/environments/environment';
 export class ToolbarComponent implements OnInit {
 	appName: string = environment.appName;
 	@Input() isLoading: boolean = false;
+	@Input() isTestStarted: boolean = false;
+	@Input() isTestStoped: boolean = false;
 
 	@Input() tests: DIPTest[] | null = [];
 	@Output() selectChange = new EventEmitter<DIPTest>();

@@ -2,8 +2,7 @@ export interface DIPTest {
 	id: string;
 	label: string;
 	image: string;
-	// logFile?: string;
-	logFile?: File;
+	logFile?: string;
 	steps: Step[];
 }
 

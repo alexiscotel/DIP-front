@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, OnInit } from '@angular/core';
 import { DIPTest } from './core/interfaces';
-import { MainService } from './core/main.service';
+import { HttpService } from './core/services/http.service';
 
 @Component({
 	selector: 'app-root',
@@ -9,17 +9,20 @@ import { MainService } from './core/main.service';
 })
 export class AppComponent implements OnInit {
 	isTestsLoading = false;
+
+	isTestStarted = false;
 	isTestInProgress = false;
 	testProgression = 0;
+	isTestStoped = false;
 
 	tests: DIPTest[] = [];
 	selectedTest: DIPTest | undefined;
 
-	constructor(private mainService: MainService) { }
+	constructor(private httpService: HttpService) { }
 
 	ngOnInit(): void {
 		this.isTestsLoading = true;
-		this.mainService.getTests().subscribe((tests) => {
+		this.httpService.getTests().subscribe((tests) => {
 			this.tests = tests;
 			this.isTestsLoading = false;
 		});
@@ -30,24 +33,27 @@ export class AppComponent implements OnInit {
 	}
 
 	onStartTest(test: DIPTest): void {
-		this.showSnackMessage('Test started', 'OK');
-		this.isTestInProgress = true;
-		this.testProgression = 10;
-		this.mainService.startTest(test).subscribe((test) => {
-			this.showSnackMessage('Test was started', 'OK');
-			this.isTestInProgress = false;
-		});
+		// this.showSnackMessage('Test started', 'OK');
+
+		this.isTestStarted = true;
+
+		// this.isTestInProgress = true;
+		// this.testProgression = 10;
+		// this.httpService.startTest(test).subscribe((test) => {
+		// 	this.showSnackMessage('Test was started', 'OK');
+		// 	this.isTestInProgress = false;
+		// });
 	}
 	onStopTest(test: DIPTest): void {
 		this.showSnackMessage('Test stop', 'OK');
 		this.isTestInProgress = true;
-		this.mainService.stopTest(test).subscribe((test) => {
+		this.httpService.stopTest(test).subscribe((test) => {
 			this.showSnackMessage('Test was stop', 'OK');
 			this.isTestInProgress = false;
 		});
 	}
 
 	showSnackMessage(message: string, action: string) {
-		this.mainService.ShowSnackMessage(message, action);
+		this.httpService.ShowSnackMessage(message, action);
 	}
 }

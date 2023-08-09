@@ -15,14 +15,12 @@
 			</mat-select>
 		</mat-form-field>
 	
-		<button mat-flat-button *ngIf="selectedTest" (click)="OnStartTest()">
+		<button mat-flat-button *ngIf="selectedTest && !isTestStarted" (click)="OnStartTest()">
 			Start
 		</button>
-		<button mat-flat-button *ngIf="selectedTest" (click)="OnStopTest()">
+		<button mat-flat-button *ngIf="selectedTest && isTestStarted" (click)="OnStopTest()">
 			Stop
 		</button>
 
 	</div>
 </mat-toolbar>
-
-<!-- <mat-progress-bar mode="determinate" value="40"></mat-progress-bar> -->

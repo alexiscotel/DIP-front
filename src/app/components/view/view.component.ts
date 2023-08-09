@@ -9,4 +9,7 @@ import { DIPTest } from 'src/app/core/interfaces';
 export class ViewComponent {
 
 	@Input() test: DIPTest | undefined;
+
+	@Input() isTestStarted!: boolean;
+	@Input() isTestStoped!: boolean;
 }

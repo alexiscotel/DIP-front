@@ -1,15 +1,17 @@
 <app-layout actionAlign="start">
 	<div class="header">
 		<h2>
-			<span *ngIf="test">"{{ test.label }}"</span>
 			Logs
+			<span *ngIf="test">for "{{ test.label }}"</span>
+			<small *ngIf="fileToLoad"> ({{ fileToLoad }})</small>
 		</h2>
+		<mat-spinner *ngIf="isLoading" class="mat-spinner"></mat-spinner>
 	</div>
 	<div class="body">
 		<pre> {{fileContent}} </pre>
 	</div>
 	<div class="actions">
-		<button mat-button>Refresh</button>
+		<button mat-button color="primary" [disabled]="isLoading">Refresh</button>
 	</div>
 	<div class="footer">
 		<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

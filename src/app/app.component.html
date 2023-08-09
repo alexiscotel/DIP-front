@@ -3,6 +3,8 @@
 		<app-toolbar 
 			[tests]="tests"
 			[isLoading]="isTestsLoading"
+			[isTestStarted]="isTestStarted"
+			[isTestStoped]="isTestStoped"
 			(selectChange)="onSelectChange($event)" 
 			(startTest)="onStartTest($event)" 
 			(stopTest)="onStopTest($event)"
@@ -13,10 +15,10 @@
 		<div class="content">
 			
 			<div class="content-top">
-				<app-view [test]="selectedTest"></app-view>
+				<app-view [test]="selectedTest" [isTestStarted]="isTestStarted" [isTestStoped]="isTestStoped"></app-view>
 			</div>
 			<div class="content-bottom">
-				<app-logs [test]="selectedTest"></app-logs>
+				<app-logs [test]="selectedTest" [isTestStarted]="isTestStarted" [isTestStoped]="isTestStoped"></app-logs>
 			</div>
 
 		</div>
