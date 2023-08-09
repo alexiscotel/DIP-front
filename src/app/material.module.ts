@@ -12,8 +12,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
-import {MatTreeNestedDataSource, MatTreeModule} from '@angular/material/tree';
-
+import {MatTreeModule} from '@angular/material/tree';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -28,6 +29,8 @@ import {MatTreeNestedDataSource, MatTreeModule} from '@angular/material/tree';
 		MatSelectModule,
 		MatTreeModule,
 		MatCheckboxModule,
+		MatProgressSpinnerModule,
+		MatSnackBarModule,
 	],
 	exports: [
 		MatGridListModule,
@@ -40,6 +43,8 @@ import {MatTreeNestedDataSource, MatTreeModule} from '@angular/material/tree';
 		MatSelectModule,
 		MatTreeModule,
 		MatCheckboxModule,
+		MatProgressSpinnerModule,
+		MatSnackBarModule,
 	]
 })
 export class MaterialModule {}

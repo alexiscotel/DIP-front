@@ -10,6 +10,7 @@ import { environment } from 'src/app/environments/environment';
 })
 export class ToolbarComponent implements OnInit {
 	appName: string = environment.appName;
+	@Input() isLoading: boolean = false;
 
 	@Input() tests: DIPTest[] | null = [];
 	@Output() selectChange = new EventEmitter<DIPTest>();
@@ -24,15 +25,6 @@ export class ToolbarComponent implements OnInit {
 
 
 	constructor(private formBuilder: FormBuilder) {
-		
-	}
-
-	ngOnInit(): void {
-		if(this.tests && this.tests.length <= 0){
-			console.warn('No tests to show');
-			return;
-		}
-
 		this.testCtrl = this.formBuilder.control('');
 
 		this.headerForm = this.formBuilder.group({
@@ -48,6 +40,13 @@ export class ToolbarComponent implements OnInit {
 				console.warn('Test not found')
 			}
 		});
+	}
+
+	ngOnInit(): void {
+		if(this.tests && this.tests.length <= 0){
+			console.warn('No tests to show');
+			return;
+		}
 	}
 
 	OnStartTest(): void {

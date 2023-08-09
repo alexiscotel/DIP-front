@@ -2,12 +2,13 @@
 	<div class="header">
 		<app-toolbar 
 			[tests]="tests"
+			[isLoading]="isTestsLoading"
 			(selectChange)="onSelectChange($event)" 
 			(startTest)="onStartTest($event)" 
 			(stopTest)="onStopTest($event)"
 		></app-toolbar>
 	</div>
-	
+	<mat-progress-bar mode="indeterminate" [value]="testProgression" *ngIf="isTestInProgress"></mat-progress-bar>
 	<div class="main">
 		<div class="content">
 			
