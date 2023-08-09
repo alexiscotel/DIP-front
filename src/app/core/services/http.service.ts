@@ -9,17 +9,12 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   providedIn: 'root'
 })
 export class HttpService {
-
 	private url = `${environment.apiUrl}`;
-	// public tests$!: Observable<DIPTest[]>;
 
-	constructor(
-        private http: HttpClient,
-		private _snackBar: MatSnackBar
-    ) {
+	constructor(private http: HttpClient) { }
 
-	}
 
+	// TESTS
 	public getTests(): Observable<DIPTest[]> {
 		const url = `${this.url}/tests`;
 		return this.http.get<DIPTest[]>(url);
@@ -30,12 +25,7 @@ export class HttpService {
 		return this.http.get<DIPTest>(url);
 	}
 
-	public getLogFileByTestId(id: string): Observable<any> {
-		const url = `${this.url}/log/${id}`;
-		return this.http.get(url, {responseType: 'text'});
-	}
-
-
+	// START / STOP TEST
 	public startTest(test: DIPTest): Observable<any> {
 		const url = `${this.url}/start/${test.id}`;
 		return this.http.get(url, { responseType: 'text' });
@@ -45,7 +35,18 @@ export class HttpService {
 		return this.http.get(url, { responseType: 'text' });
 	}
 
-	ShowSnackMessage(message: string, action: string, duration: number = 2) {
-		this._snackBar.open(message, action, {duration: duration * 1000});
-	}
+
+	// CONNECTIONS
+	// public getSocketConnections(): Observable<any> {
+	// 	const url = `${this.url}/connections`;
+	// 	return this.http.get<any>(url);
+	// }
+	// public countSocketConnections(): Observable<any> {
+	// 	const url = `${this.url}/connections/count`;
+	// 	return this.http.get<any>(url);
+	// }
+	// public getSocketConnection(id: string): Observable<any> {
+	// 	const url = `${this.url}/connections/id/${id}`;
+	// 	return this.http.get<any>(url);
+	// }
 }

@@ -3,7 +3,7 @@
 		<h2>
 			Logs
 			<span *ngIf="test">for "{{ test.label }}"</span>
-			<small *ngIf="fileToLoad"> ({{ fileToLoad }})</small>
+			<small *ngIf="test?.logFile"> ({{ test?.logFile }})</small>
 		</h2>
 		<mat-spinner *ngIf="isLoading" class="mat-spinner"></mat-spinner>
 	</div>
@@ -11,9 +11,6 @@
 		<pre> {{fileContent}} </pre>
 	</div>
 	<div class="actions">
-		<button mat-button color="primary" [disabled]="isLoading">Refresh</button>
-	</div>
-	<div class="footer">
-		<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+		<button mat-button color="primary" [disabled]="isLoading" (click)="clearLog()">Clear</button>
 	</div>
 </app-layout>

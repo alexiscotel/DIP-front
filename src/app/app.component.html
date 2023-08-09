@@ -10,15 +10,15 @@
 			(stopTest)="onStopTest($event)"
 		></app-toolbar>
 	</div>
-	<mat-progress-bar mode="indeterminate" [value]="testProgression" *ngIf="isTestInProgress"></mat-progress-bar>
+	<mat-progress-bar mode="indeterminate" *ngIf="isTestInProgress()"></mat-progress-bar>
 	<div class="main">
 		<div class="content">
 			
 			<div class="content-top">
-				<app-view [test]="selectedTest" [isTestStarted]="isTestStarted" [isTestStoped]="isTestStoped"></app-view>
+				<app-view [test]="selectedTest"></app-view>
 			</div>
 			<div class="content-bottom">
-				<app-logs [test]="selectedTest" [isTestStarted]="isTestStarted" [isTestStoped]="isTestStoped"></app-logs>
+				<app-logs [test]="selectedTest" [fileContent]="fileContent"></app-logs>
 			</div>
 
 		</div>

@@ -15,10 +15,10 @@
 			</mat-select>
 		</mat-form-field>
 	
-		<button mat-flat-button *ngIf="selectedTest && !isTestStarted" (click)="OnStartTest()">
+		<button mat-flat-button color="primary" *ngIf="selectedTest && !isTestStarted" (click)="OnStartTest()">
 			Start
 		</button>
-		<button mat-flat-button *ngIf="selectedTest && isTestStarted" (click)="OnStopTest()">
+		<button mat-flat-button color="warn" *ngIf="selectedTest && isTestStarted" (click)="OnStopTest()">
 			Stop
 		</button>
 

@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { delay, Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DIPTest } from 'src/app/core/interfaces';
+import { HttpService } from 'src/app/core/services/http.service';
 import { environment } from 'src/app/environments/environment';
 
 @Component({
@@ -26,7 +28,11 @@ export class ToolbarComponent implements OnInit {
 	@Output() stopTest = new EventEmitter<DIPTest>();
 
 
-	constructor(private formBuilder: FormBuilder) {
+	socketConnections$: Observable<any> | undefined;
+	socketConnections: any = 0;
+
+
+	constructor(private formBuilder: FormBuilder, private httpService: HttpService) {
 		this.testCtrl = this.formBuilder.control('');
 
 		this.headerForm = this.formBuilder.group({
@@ -47,7 +53,6 @@ export class ToolbarComponent implements OnInit {
 	ngOnInit(): void {
 		if(this.tests && this.tests.length <= 0){
 			console.warn('No tests to show');
-			return;
 		}
 	}
 
@@ -57,5 +62,6 @@ export class ToolbarComponent implements OnInit {
 	OnStopTest(): void {
 		this.stopTest.emit(this.selectedTest);
 	}
+
 
 }
