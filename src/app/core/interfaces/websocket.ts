@@ -1,18 +1,3 @@
-// export interface Test {
-// 	id: string;
-// 	label: string;
-// 	image: string;
-// 	logFile?: string;
-// 	steps: Step[];
-// }
-
-// export interface Step {
-// 	id: number;
-// 	label: string;
-// 	commands?: string[];
-// }
-
-
 export interface SocketData {
 	sender: string
 	type: socketType;
@@ -26,7 +11,8 @@ export enum socketType {
 	start = 'start',
 	pause = 'pause',
 	stop = 'stop',
-	logFile = 'logFile',
+	askLogFile = 'askLogFile',
+	readLogFile = 'readLogFile',
 	statusFile = 'statusFile',
 	ioFile = 'ioFile',
 }

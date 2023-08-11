@@ -39,27 +39,35 @@ export class WebsocketService {
 		console.log('distributeData', socketData)
 		switch (socketData.type) {
 			case socketType.join:
-				console.log('distribute join:', socketData);
+				console.log('distributeData join:', socketData);
 				this.utilsService.showSnackMessage(socketData.data.message+', get tests', 'OK', 5);
 
 				this.testService.updateTestList(socketData.data.tests);
 				break;
-			case socketType.logFile:
-				console.log('distribute logFile:', socketData.data);
-				this.testService.receiveLogFileContent(socketData.data);
+			case socketType.askLogFile:
+				console.log('distributeData askLogFile:', socketData.data);
 				break;
+			case socketType.readLogFile:
+					console.log('distributeData readLogFile:', socketData.data);
+					if(socketData.data.status === false) {
+						console.log('receiveLogFileContent', socketData.data);
+						this.utilsService.showSnackMessage(socketData.data.message, 'OK');
+						break;
+					}
+					this.testService.receiveLogFileContent(socketData.data);
+					break;
 			case socketType.message:
-				console.log('distribute message:', socketData.data);
+				console.log('distributeData message:', socketData.data);
 				// this.messageService.addMessage(socketData.data.message);
 				break;
 			case socketType.start:
-				console.log('distribute start:', socketData.data);
+				console.log('distributeData start:', socketData.data);
 				break;
 			case socketType.pause:
-				console.log('distribute pause:', socketData.data);
+				console.log('distributeData pause:', socketData.data);
 				break;
 			case socketType.stop:
-				console.log('distribute stop:', socketData.data);
+				console.log('distributeData stop:', socketData.data);
 				break;
 			default:
 				break;

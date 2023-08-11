@@ -35,8 +35,8 @@ export class LogsComponent implements OnInit, OnChanges, OnDestroy {
 
 		if(changes.test){
 			if(changes.test.currentValue !== changes.test.previousValue){
-				console.log('ask for log file');
-				this.websocketService.sendData(changes.test.currentValue, socketType.logFile);
+				console.log('ask for log file', changes.test.currentValue);
+				this.websocketService.sendData(changes.test.currentValue, socketType.askLogFile);
 			}
 		}
 	}
