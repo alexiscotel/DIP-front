@@ -5,8 +5,9 @@
 			[isLoading]="isTestsLoading"
 			[isTestStarted]="isTestStarted"
 			[isTestStoped]="isTestStoped"
-			(selectChange)="onSelectChange($event)" 
-			(startTest)="onStartTest($event)" 
+			(selectChange)="onSelectChange($event)"
+			(startTest)="onStartTest($event)"
+			(pauseTest)="onPauseTest($event)"
 			(stopTest)="onStopTest($event)"
 		></app-toolbar>
 	</div>

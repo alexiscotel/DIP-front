@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DIPTest } from 'src/app/core/interfaces';
+import { Test } from 'src/app/core/interfaces/Test';
 
 @Component({
   selector: 'app-view',
@@ -8,7 +8,7 @@ import { DIPTest } from 'src/app/core/interfaces';
 })
 export class ViewComponent {
 
-	@Input() test: DIPTest | undefined;
+	@Input() test: Test | undefined;
 
 	@Input() isTestStarted!: boolean;
 	@Input() isTestStoped!: boolean;

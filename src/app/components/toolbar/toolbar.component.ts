@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { delay, Observable } from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { delay, Observable, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DIPTest } from 'src/app/core/interfaces';
+import { Test } from 'src/app/core/interfaces/Test';
 import { HttpService } from 'src/app/core/services/http.service';
-import { environment } from 'src/app/environments/environment';
+import { environment } from 'src/environments/environment';
+import { TestService } from 'src/app/core/services/test.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -12,27 +13,29 @@ import { environment } from 'src/app/environments/environment';
 })
 export class ToolbarComponent implements OnInit {
 	appName: string = environment.appName;
+
 	@Input() isLoading: boolean = false;
 	@Input() isTestStarted: boolean = false;
 	@Input() isTestStoped: boolean = false;
 
-	@Input() tests: DIPTest[] | null = [];
-	@Output() selectChange = new EventEmitter<DIPTest>();
+	@Input() tests: Test[] | null = [];
+	@Output() selectChange = new EventEmitter<Test>();
 
-	selectedTest: DIPTest | undefined;
+	selectedTest: Test | undefined;
 
 	protected headerForm!: FormGroup;
 	protected testCtrl!: FormControl;
 
-	@Output() startTest = new EventEmitter<DIPTest>();
-	@Output() stopTest = new EventEmitter<DIPTest>();
+	@Output() startTest = new EventEmitter<Test>();
+	@Output() pauseTest = new EventEmitter<Test>();
+	@Output() stopTest = new EventEmitter<Test>();
 
 
 	socketConnections$: Observable<any> | undefined;
 	socketConnections: any = 0;
 
 
-	constructor(private formBuilder: FormBuilder, private httpService: HttpService) {
+	constructor(private formBuilder: FormBuilder, private testService: TestService) {
 		this.testCtrl = this.formBuilder.control('');
 
 		this.headerForm = this.formBuilder.group({
@@ -44,20 +47,20 @@ export class ToolbarComponent implements OnInit {
 			if(test){
 				this.selectedTest = test;
 				this.selectChange.emit(test);
+				console.log('new test selected');
 			}else{
 				console.warn('Test not found')
 			}
 		});
 	}
 
-	ngOnInit(): void {
-		if(this.tests && this.tests.length <= 0){
-			console.warn('No tests to show');
-		}
-	}
+	ngOnInit(): void { }
 
 	OnStartTest(): void {
 		this.startTest.emit(this.selectedTest);
+	}
+	OnPauseTest(): void {
+		this.pauseTest.emit(this.selectedTest);
 	}
 	OnStopTest(): void {
 		this.stopTest.emit(this.selectedTest);

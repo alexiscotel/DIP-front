@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, Observable } from 'rxjs';
-import { DIPTest } from '../interfaces';
-import { environment } from '../../environments/environment';
+
+import { environment } from 'src/environments/environment';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { Test } from '../interfaces/Test';
+import { UtilsService } from './utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,29 +13,48 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class HttpService {
 	private url = `${environment.apiUrl}`;
 
-	constructor(private http: HttpClient) { }
+	constructor(private http: HttpClient, private utilsService: UtilsService) { }
 
 
 	// TESTS
-	public getTests(): Observable<DIPTest[]> {
+	public loadTests(): void {
+		this.getTests().subscribe({
+			next: (data: any) => {
+				console.log('get tests', data);
+			},
+			error: (err) => {
+				console.error('ERROR - get tests', err);
+				this.utilsService.showSnackMessage(err.message, 'OK');
+			},
+			complete: () => {
+				// console.log('complete');
+			},
+		});
+	}
+
+	public getTests(): Observable<Test[]> {
 		const url = `${this.url}/tests`;
-		return this.http.get<DIPTest[]>(url);
+		return this.http.get<Test[]>(url);
 	}
 
-	public getTest(id: number): Observable<DIPTest> {
+	public getTest(id: number): Observable<Test> {
 		const url = `${this.url}/tests/${id}`;
-		return this.http.get<DIPTest>(url);
+		return this.http.get<Test>(url);
 	}
 
-	// START / STOP TEST
-	public startTest(test: DIPTest): Observable<any> {
-		const url = `${this.url}/start/${test.id}`;
-		return this.http.get(url, { responseType: 'text' });
-	}
-	public stopTest(test: DIPTest): Observable<any> {
-		const url = `${this.url}/stop/${test.id}`;
-		return this.http.get(url, { responseType: 'text' });
-	}
+	// // START / STOP TEST
+	// public startTest(test: Test): Observable<any> {
+	// 	const url = `${this.url}/start/${test.id}`;
+	// 	return this.http.get(url, { responseType: 'text' });
+	// }
+	// public pauseTest(test: Test): Observable<any> {
+	// 	const url = `${this.url}/pause/${test.id}`;
+	// 	return this.http.get(url, { responseType: 'text' });
+	// }
+	// public stopTest(test: Test): Observable<any> {
+	// 	const url = `${this.url}/stop/${test.id}`;
+	// 	return this.http.get(url, { responseType: 'text' });
+	// }
 
 
 	// CONNECTIONS
