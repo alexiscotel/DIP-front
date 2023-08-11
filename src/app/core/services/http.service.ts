@@ -35,6 +35,13 @@ export class HttpService {
 		return this.http.get(url, { responseType: 'text' });
 	}
 
+	// RESULTS
+	public listenTest(test: DIPTest): Observable<any> {
+		const url = `${this.url}/listen`;
+		// const body = {test: test};
+		return this.http.post<any>(url, test);
+	}
+
 
 	// CONNECTIONS
 	// public getSocketConnections(): Observable<any> {

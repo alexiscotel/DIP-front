@@ -118,4 +118,42 @@ export class AppComponent implements OnInit {
 			},
 		});
 	}
+
+	onListenTest(test: DIPTest): void {
+		console.log('listen test', test);
+
+
+		this.subscription = this.websocketService.listen().subscribe({
+			next: (data) => {
+				console.log('listen websocket', data);
+				if(data.message !== '_OK_'){
+					this.utilsService.showSnackMessage('connection with websocket cannot be established', 'OK');
+					return;
+				}
+
+
+				this.httpService.listenTest(test).subscribe({
+					next: (data: any) => {
+						console.log('listen websocket', data);
+					},
+					error: (err) => {
+						console.error('ERROR - listen websocket', err);
+						this.utilsService.showSnackMessage('ERROR - listen websocket : '+(err.message ? err.message : 'check internet connection'), 'OK');
+					},
+					complete: () => {
+						console.log('listen websocket complete');
+					},
+				});
+
+
+			},
+			error: (err) => {
+				console.error('ERROR - listen websocket', err);
+				this.utilsService.showSnackMessage('ERROR - listen websocket : '+err, 'OK');
+			},
+			complete: () => {
+				console.log('listen websocket complete');
+			},
+		});
+	}
 }

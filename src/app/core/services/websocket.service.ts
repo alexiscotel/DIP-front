@@ -18,6 +18,7 @@ export class WebsocketService {
 
 			const messageSubscription = this.socket$.subscribe({
 				next: (data) => {
+					console.log('Message reçu :', data)
 					subscriber.next(data);
 				},
 				error: (err) => {
