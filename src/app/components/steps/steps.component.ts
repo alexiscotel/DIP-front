@@ -1,102 +1,157 @@
 import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { DIPTest, Step } from 'src/app/core/interfaces';
+import { DIPTest, StatusTest, StepStatus, Command, CommandStatus } from 'src/app/core/interfaces';
 
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import { Subscription } from 'rxjs';
+import { HttpService } from 'src/app/core/services/http.service';
+import { WebsocketService } from 'src/app/core/services/websocket.service';
+import { UtilsService } from 'src/app/core/services/utils.service';
 
 
 interface TreeNode {
 	name: string;
 	level?: number;
+	status?: number;
 	children?: TreeNode[];
 }
-/** Flat node with expandable and level information */
 interface FlatNode {
 	expandable: boolean;
 	name: string;
 	level: number;
-  }
+	status?: number;
+}
 
 @Component({
   selector: 'app-steps',
   templateUrl: './steps.component.html',
   styleUrls: ['./steps.component.scss']
 })
-export class StepsComponent implements OnInit, AfterViewInit, OnChanges {
-	isLoading: boolean = false;
-	
-	@Input() test: DIPTest | undefined;
-	
+export class StepsComponent implements OnInit, OnChanges {
 	treeControl = new NestedTreeControl<TreeNode>(node => node.children);
-  	dataSource = new MatTreeNestedDataSource<any>();
+	dataSource = new MatTreeNestedDataSource<any>();
 
-	constructor() { }
+	// commandStatus: CommandStatus = CommandStatus.STOPED;
 
-	ngOnInit(): void {
+	isLoading: boolean = false;
+
+	@Input() test: DIPTest | undefined;
+
+	@Input() fileContent: any = '';
+	protected formatedStatus: StatusTest | undefined;
+	// protected steps: Step[] = [];
+
+
+	constructor(private websocketService: WebsocketService, private utilsService: UtilsService) { }
+
+	ngOnInit(): void { }
+
+	ngOnChanges(changes: any): void {
+		console.log('ngOnChanges', changes);
+
+		if(changes.test && changes.test.currentValue !== changes.test.previousValue){
+			this.askForStatusFileContent(changes.test.currentValue);
+		}
+
+
+		if(changes.fileContent && changes.fileContent.currentValue && changes.fileContent.currentValue !== changes.fileContent.previousValue){
+			console.log('fileContent', changes.fileContent.currentValue);
+			this.detectAndFormatSteps(changes.fileContent.currentValue);
+
+		}
+	}
+
+	private askForStatusFileContent(test: DIPTest): void {
+		console.log('askForStatusFileContent', test);
+
+		this.websocketService.sendMessage({
+			sender: 'client',
+			type: 'askStatusFile',
+			data: test
+		});
+	}
+
+	protected clearStatus(): void {
+		this.fileContent = '';
+	}
+
+	private detectAndFormatSteps(data: any): void {
+		const formatedStatus = this.formatStepStatus(data);
+		console.log('formatedStatus', formatedStatus);
+		if(!formatedStatus){
+			this.utilsService.showSnackMessage('ERROR - detectAndFormatSteps : wrong file format', 'OK');
+			return;
+		}
+		this.formatedStatus = formatedStatus;
+
 		this.updateTree();
 	}
 
-	@ViewChild('mytree') tree: any
-
-	ngAfterViewInit() {
-		this.updateTree();
+	private formatStepStatus(data: any): StatusTest {
+		console.log('formatStepStatus', data);
+		return data as StatusTest;
 	}
 
-	ngOnChanges(changes: SimpleChanges): void { 
-		this.updateTree();
-	}
+	// MAT TREE
+	protected hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
+	// protected getNodeStatus(status: number): CommandStatus {
+	// 	console.log('getNodeStatus', status);
 
+	// 	if(status < 0){
+	// 		return CommandStatus.STOPED;
+	// 	}else if(status > 0){
+	// 		return CommandStatus.STARTED;
+	// 	}else if(status === 0){
+	// 		return CommandStatus.PAUSED;
+	// 	}else{
+	// 		return CommandStatus.STOPED;
+	// 	}
+	// }
 	protected updateTree(): void {
 		this.isLoading = true;
 		this.dataSource.data = [];
-		if(!this.test){
-			console.warn('test is undefined')
+		if(!this.formatedStatus){
+			console.warn('formatedStatus is undefined')
 			this.isLoading = false;
 			return;
 		}
-		const nodes = this._transformer(this.test);
+		const nodes = this._transformer(this.formatedStatus);
 		if(nodes && nodes.length > 0)
 			this.dataSource.data = nodes;
 
 		this.isLoading = false;
 	}
 
-	protected hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
-
-	private _transformer(test: DIPTest): TreeNode[] | undefined {
-		if(!test){
+	private _transformer(testStatus: StatusTest): TreeNode[] | undefined {
+		if(!testStatus){
 			console.warn('test is undefined')
 			return;
 		}
-		if(!test.steps){
+		if(!testStatus.steps){
 			console.warn('test.steps is undefined')
 			return;
 		}
 
 		let steps: TreeNode[] = []
-		test.steps.forEach((step: Step) => {
+		testStatus.steps.forEach((step: StepStatus) => {
 			const commands: TreeNode[] = [];
-			step.commands?.forEach((command: string) => {
+
+			step.values.forEach((command: Command) => {
 				commands.push({
-					name: command
+					name: command.id,
+					level: 2,
+					status: command.status ? command.status : 0,
 				});
 			});
-
+			
 			steps.push({
-				name: step.label,
+				name: step.key,
 				level: 1,
+				status: step.status ? step.status : 0,
 				children: commands,
 			});
 		});
 		
 		return steps;
 	};
-
-	isStepComplete(node: TreeNode): boolean {
-		return false
-	}
-
-	onRefresh(): void {
-		this.updateTree();
-	}
 }

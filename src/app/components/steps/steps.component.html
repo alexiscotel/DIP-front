@@ -3,15 +3,11 @@
 		<h2>Steps</h2>
 	</div>
 	<div class="body">
+
 		<mat-tree #mytree class="tree" [dataSource]="dataSource" [treeControl]="treeControl">
 			<mat-tree-node *matTreeNodeDef="let childNode" matTreeNodeToggle>
-				<mat-checkbox
-					class="example-margin"
-					[ngModel]="isStepComplete(childNode)"
-					labelPosition="after"
-					[disabled]="true">
-				</mat-checkbox>
-				<span matTreeNodeToggle class="node-label">{{childNode.name}}</span>
+				<!-- <p>{{childNode.name}} -> {{childNode.status}}</p> -->
+				<app-step-status [status]="childNode.status">{{childNode.name}}</app-step-status>
 			</mat-tree-node>
 			<mat-nested-tree-node *matTreeNodeDef="let parentNode; when: hasChild">
 				<div class="mat-tree-node">
@@ -21,13 +17,8 @@
 						</mat-icon>
 					</button>
 
-					<mat-checkbox
-						class="example-margin"
-						[ngModel]="isStepComplete(parentNode)"
-						labelPosition="after"
-						[disabled]="true">
-					</mat-checkbox>
-					<span matTreeNodeToggle class="node-label">{{parentNode.name}}</span>
+					<!-- <p>{{parentNode.name}} - {{parentNode.status}}</p> -->
+					<app-step-status [status]="parentNode.status">{{parentNode.name}}</app-step-status>
 				</div>
 				<div [class.tree-invisible]="!treeControl.isExpanded(parentNode)" role="group">
 					<ng-container matTreeNodeOutlet></ng-container>
@@ -37,7 +28,7 @@
 
 	</div>
 	<div class="actions">
-		<button mat-button (click)="onRefresh()">Refresh</button>
+		<button mat-button (click)="clearStatus()">Clear</button>
 	</div>
 	<div class="footer">
 		<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

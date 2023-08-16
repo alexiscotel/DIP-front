@@ -9,7 +9,7 @@ interface IEnvironment {
 export const environment: IEnvironment = {
     production: false,
     useMocks: false,
-    apiUrl: 'http://127.0.0.1:2999/api',
+    apiUrl: 'http://127.0.0.1:3000/api',
 	websocketURL: 'ws://localhost:8080',
     appName: 'DIP Test server',
 };

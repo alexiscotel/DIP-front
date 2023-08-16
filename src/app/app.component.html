@@ -6,7 +6,7 @@
 			[isTestStarted]="isTestStarted"
 			[isTestStoped]="isTestStoped"
 			(selectChange)="onSelectChange($event)" 
-			(startTest)="onListenTest($event)" 
+			(startTest)="onStartTest($event)"
 			(stopTest)="onStopTest($event)"
 		></app-toolbar>
 	</div>
@@ -18,12 +18,12 @@
 				<app-view [test]="selectedTest"></app-view>
 			</div>
 			<div class="content-bottom">
-				<app-logs [test]="selectedTest" [fileContent]="fileContent"></app-logs>
+				<app-logs [test]="selectedTest" [fileContent]="logFileContent"></app-logs>
 			</div>
 
 		</div>
 		<div class="sidebar">
-			<app-steps [test]="selectedTest"></app-steps>
+			<app-steps [test]="selectedTest" [fileContent]="statusFileContent"></app-steps>
 		</div>
 	</div>
 	<!-- <div class="footer">

@@ -16,6 +16,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { HttpService } from './core/services/http.service';
+import { StepStatusComponent } from './components/steps/step-status/step-status.component';
 
 
 
@@ -28,6 +29,7 @@ import { HttpService } from './core/services/http.service';
 		LogsComponent,
 		StepsComponent,
 		ViewComponent,
+  StepStatusComponent,
 	],
 	imports: [
 		HttpClientModule,

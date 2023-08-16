@@ -10,7 +10,9 @@ export class WebsocketService {
 
 	private socket$!: WebSocketSubject<any>;
 
-  	constructor() { }
+  	constructor() { 
+		
+	}
 
 	public listen(): Observable<any> {
 		return new Observable((subscriber) => {
@@ -18,11 +20,11 @@ export class WebsocketService {
 
 			const messageSubscription = this.socket$.subscribe({
 				next: (data) => {
-					console.log('Message reçu :', data)
+					// console.log('Message reçu :', data)
 					subscriber.next(data);
 				},
 				error: (err) => {
-					console.error('Erreur WebSocket :', err);
+					// console.error('Erreur WebSocket :', err);
 					subscriber.error(err);
 				},
 				complete: () => {

@@ -3,11 +3,33 @@ export interface DIPTest {
 	label: string;
 	image: string;
 	logFile?: string;
-	steps: Step[];
+	statusFile?: string;
 }
 
-export interface Step {
+export interface StatusTest {
 	id: number;
-	label: string;
-	commands?: string[];
+	label?: string;
+	status: number;
+	progress: number;
+	steps: StepStatus[];
+}
+
+export interface StepStatus {
+	key: string;
+	status?: number;
+	values: Command[];
+}
+
+export interface Command {
+	id: string;
+	status?: number;
+}
+
+export enum CommandStatus {
+	UNDEFINED = "UNDEFINED",
+	PAUSED = "PAUSED",
+	STARTED = "STARTED",
+	STOPED = "STOPED",
+	END = "END",
+	ERROR = "ERROR",
 }
