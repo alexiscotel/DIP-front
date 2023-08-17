@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve -o --port 4200",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng build dip-webserver",
+    "watch": "ng build --watch --configuration development dip-webserver",
     "test": "ng test"
   },
   "private": true,

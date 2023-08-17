@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
 
 	logFileContent: any = '';
 	statusFileContent: any = '';
+	ioFileContent: any = '';
 
 	private subscription!: Subscription;
 	constructor(private websocketService: WebsocketService, private utilsService: UtilsService) { }
@@ -37,7 +38,7 @@ export class AppComponent implements OnInit {
 		this.isTestsLoading = true;
 		this.subscription = this.websocketService.listen().subscribe({
 			next: (socketData) => {
-				console.log('listen websocket', socketData);
+				// console.log('listen websocket', socketData);
 				this.isTestsLoading = false;
 				this.distributeDatas(socketData);
 			},
@@ -82,6 +83,9 @@ export class AppComponent implements OnInit {
 			case 'readStatusFile':
 				this.readStatusFile(socketData);
 				break;
+			case 'readIoFile':
+				this.readIoFile(socketData);
+				break;
 			default:
 				console.error('unknown type', socketData.type);
 				this.utilsService.showSnackMessage('unknown type comming from websocket: '+socketData.type, 'OK');
@@ -90,7 +94,7 @@ export class AppComponent implements OnInit {
 	}
 
 	private joinConnection(socketData: any): void {
-		console.log('joinConnection');
+		// console.log('joinConnection');
 		if(!socketData.data || socketData.data.connected !== true){
 			this.utilsService.showSnackMessage('connection with websocket cannot be established', 'OK');
 			return;
@@ -129,12 +133,23 @@ export class AppComponent implements OnInit {
 	}
 	
 	private readLogFile(socketData: any): void {
-		console.log('readLogFile', socketData);
+		// console.log('readLogFile', socketData);
 		this.logFileContent = socketData.data;
 	}
 
 	private readStatusFile(socketData: any): void {
-		console.log('readStatusFile', socketData);
+		// console.log('readStatusFile', socketData);
 		this.statusFileContent = JSON.parse(socketData.data);
+	}
+
+	private readIoFile(socketData: any): void {
+		const data = JSON.parse(socketData.data)
+		console.log('readIoFile', data);
+		if(data.message){
+			console.error(data.message, socketData);
+			this.utilsService.showSnackMessage(data.message, 'OK');
+			return;
+		}
+		this.ioFileContent = JSON.parse(socketData.data);
 	}
 }

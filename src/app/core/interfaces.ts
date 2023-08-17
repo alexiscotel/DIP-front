@@ -4,9 +4,13 @@ export interface DIPTest {
 	image: string;
 	logFile?: string;
 	statusFile?: string;
+	ioFile?: string;
+	scripts: {
+		[scriptName: string]: string;
+	};
 }
 
-export interface StatusTest {
+export interface TestStatus {
 	id: number;
 	label?: string;
 	status: number;
@@ -15,21 +19,21 @@ export interface StatusTest {
 }
 
 export interface StepStatus {
-	key: string;
+	label: string;
 	status?: number;
-	values: Command[];
+	commands: Command[];
 }
 
 export interface Command {
-	id: string;
+	label: string;
 	status?: number;
 }
 
 export enum CommandStatus {
-	UNDEFINED = "UNDEFINED",
-	PAUSED = "PAUSED",
-	STARTED = "STARTED",
-	STOPED = "STOPED",
-	END = "END",
-	ERROR = "ERROR",
+	UNDEFINED = "UNDEFINED", // 
+	PAUSED = "PAUSED",       // 0
+	STARTED = "STARTED",     // 1
+	STOPED = "STOPED",       // -1
+	END = "END",             // 
+	ERROR = "ERROR",         //
 }

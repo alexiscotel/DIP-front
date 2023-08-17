@@ -15,18 +15,16 @@
 		<div class="content">
 			
 			<div class="content-top">
-				<app-view [test]="selectedTest"></app-view>
+				<app-io [test]="selectedTest" [fileContent]="ioFileContent"></app-io>
 			</div>
-			<div class="content-bottom">
+			<!-- <div class="content-bottom">
 				<app-logs [test]="selectedTest" [fileContent]="logFileContent"></app-logs>
-			</div>
+			</div> -->
 
 		</div>
-		<div class="sidebar">
+		<!-- <div class="sidebar">
 			<app-steps [test]="selectedTest" [fileContent]="statusFileContent"></app-steps>
-		</div>
+		</div> -->
 	</div>
-	<!-- <div class="footer">
-		<app-footer></app-footer>
-	</div> -->
+	
 </div>

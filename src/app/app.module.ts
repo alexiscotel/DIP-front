@@ -6,17 +6,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
+
+import { AppComponent } from './app.component';
+
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { LogsComponent } from './components/logs/logs.component';
-import { StepsComponent } from './components/steps/steps.component';
-import { ViewComponent } from './components/view/view.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { FooterComponent } from './components/footer/footer.component';
 
-import { HttpService } from './core/services/http.service';
+import { LogsComponent } from './components/logs/logs.component';
+import { StepsComponent } from './components/steps/steps.component';
 import { StepStatusComponent } from './components/steps/step-status/step-status.component';
+import { IoComponent } from './components/io/io.component';
+
+
+import { HttpService } from './core/services/http.service';
 
 
 
@@ -28,8 +32,8 @@ import { StepStatusComponent } from './components/steps/step-status/step-status.
 		FooterComponent,
 		LogsComponent,
 		StepsComponent,
-		ViewComponent,
-  StepStatusComponent,
+  		StepStatusComponent,
+  		IoComponent,
 	],
 	imports: [
 		HttpClientModule,

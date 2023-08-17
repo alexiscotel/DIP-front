@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { DIPTest, StatusTest, StepStatus, Command, CommandStatus } from 'src/app/core/interfaces';
+import { DIPTest, TestStatus, StepStatus, Command, CommandStatus } from 'src/app/core/interfaces';
 
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
@@ -38,7 +38,7 @@ export class StepsComponent implements OnInit, OnChanges {
 	@Input() test: DIPTest | undefined;
 
 	@Input() fileContent: any = '';
-	protected formatedStatus: StatusTest | undefined;
+	protected formatedStatus: TestStatus | undefined;
 	// protected steps: Step[] = [];
 
 
@@ -47,22 +47,26 @@ export class StepsComponent implements OnInit, OnChanges {
 	ngOnInit(): void { }
 
 	ngOnChanges(changes: any): void {
-		console.log('ngOnChanges', changes);
+		// console.log('[steps] ngOnChanges', changes);
 
 		if(changes.test && changes.test.currentValue !== changes.test.previousValue){
-			this.askForStatusFileContent(changes.test.currentValue);
+			const test = changes.test.currentValue;
+			if(test && test.statusFile){
+				this.askForStatusFileContent(test);
+			}else{
+				console.warn('No status file for this test', test);
+			}
 		}
 
 
 		if(changes.fileContent && changes.fileContent.currentValue && changes.fileContent.currentValue !== changes.fileContent.previousValue){
-			console.log('fileContent', changes.fileContent.currentValue);
+			// console.log('[status] fileContent', changes.fileContent.currentValue);
 			this.detectAndFormatSteps(changes.fileContent.currentValue);
-
 		}
 	}
 
 	private askForStatusFileContent(test: DIPTest): void {
-		console.log('askForStatusFileContent', test);
+		// console.log('askForStatusFileContent', test);
 
 		this.websocketService.sendMessage({
 			sender: 'client',
@@ -77,7 +81,7 @@ export class StepsComponent implements OnInit, OnChanges {
 
 	private detectAndFormatSteps(data: any): void {
 		const formatedStatus = this.formatStepStatus(data);
-		console.log('formatedStatus', formatedStatus);
+		// console.log('formatedStatus', formatedStatus);
 		if(!formatedStatus){
 			this.utilsService.showSnackMessage('ERROR - detectAndFormatSteps : wrong file format', 'OK');
 			return;
@@ -87,9 +91,9 @@ export class StepsComponent implements OnInit, OnChanges {
 		this.updateTree();
 	}
 
-	private formatStepStatus(data: any): StatusTest {
-		console.log('formatStepStatus', data);
-		return data as StatusTest;
+	private formatStepStatus(data: any): TestStatus {
+		// console.log('formatStepStatus', data);
+		return data as TestStatus;
 	}
 
 	// MAT TREE
@@ -122,7 +126,7 @@ export class StepsComponent implements OnInit, OnChanges {
 		this.isLoading = false;
 	}
 
-	private _transformer(testStatus: StatusTest): TreeNode[] | undefined {
+	private _transformer(testStatus: TestStatus): TreeNode[] | undefined {
 		if(!testStatus){
 			console.warn('test is undefined')
 			return;
@@ -136,16 +140,16 @@ export class StepsComponent implements OnInit, OnChanges {
 		testStatus.steps.forEach((step: StepStatus) => {
 			const commands: TreeNode[] = [];
 
-			step.values.forEach((command: Command) => {
+			step.commands.forEach((command: Command) => {
 				commands.push({
-					name: command.id,
+					name: command.label,
 					level: 2,
 					status: command.status ? command.status : 0,
 				});
 			});
 			
 			steps.push({
-				name: step.key,
+				name: step.label,
 				level: 1,
 				status: step.status ? step.status : 0,
 				children: commands,

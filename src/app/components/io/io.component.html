@@ -1,0 +1,37 @@
+<app-layout actionAlign="end">
+	<div class="header">
+		<h2>
+			DIP
+			<span *ngIf="test"> "{{ test.label }}"</span>
+		</h2>
+	</div>
+	<div class="body">
+		
+		<div class="body-container">
+			<div class="infos-container">
+				<span *ngFor="let info of infos | keyvalue">
+					{{ info.key }} : {{ info.value }}
+				</span>
+			</div>
+
+			<img *ngIf="test && test.image" class="dip-img" [src]="test.image" alt="">
+		</div>
+
+		<div class="io-container">
+			<div class="inputs">
+				<span *ngFor="let input of inputs | keyvalue">
+					{{ input.key }} : {{ input.value }}
+				</span>
+			</div>
+	
+			<div class="outputs">
+				<span *ngFor="let output of outputs | keyvalue">
+					{{ output.key }} : {{ output.value }}
+				</span>
+			</div>
+		</div>
+
+		
+	</div>
+	<!-- <div class="actions">toto</div> -->
+</app-layout>

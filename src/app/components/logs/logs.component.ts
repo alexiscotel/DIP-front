@@ -22,15 +22,20 @@ export class LogsComponent implements OnInit, OnChanges {
 	ngOnInit(): void { }
 
 	ngOnChanges(changes: any): void {
-		console.log('ngOnChanges', changes);
+		// console.log('[logs] ngOnChanges', changes);
 
 		if(changes.test && changes.test.currentValue !== changes.test.previousValue){
-			this.askForLogFileContent(changes.test.currentValue);
+			const test = changes.test.currentValue;
+			if(test && test.logFile){
+				this.askForLogFileContent(test);
+			}else{
+				console.warn('No log file for this test', test);
+			}
 		}
 	}
 
 	private askForLogFileContent(test: DIPTest): void {
-		console.log('askForLogFileContent', test);
+		// console.log('askForLogFileContent', test);
 
 		this.websocketService.sendMessage({
 			sender: 'client',
