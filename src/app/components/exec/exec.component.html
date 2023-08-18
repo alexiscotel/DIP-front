@@ -1,0 +1,18 @@
+<app-layout actionAlign="end">
+	<div class="header">
+		<h2>
+			Execution
+			<span *ngIf="executionStatus"> - {{executionStatus}}</span>
+		</h2>
+		<mat-spinner *ngIf="isLoading" class="mat-spinner"></mat-spinner>
+	</div>
+	<div class="body" *ngIf="executionError">
+		<pre>{{executionError}}</pre>
+	</div>
+	<div class="body" *ngIf="executionLogs">
+		<pre> {{executionLogs}} </pre>
+	</div>
+	<div class="actions">
+		<button mat-button color="primary" [disabled]="isLoading" (click)="clearExecution()">Clear</button>
+	</div>
+</app-layout>

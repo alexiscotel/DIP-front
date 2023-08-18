@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Renderer2, OnInit } from '@angular/core';
-import { DIPTest } from './core/interfaces';
+import { DIPTest, ExecutionStatus } from './core/interfaces';
 import { HttpService } from './core/services/http.service';
 import { UtilsService } from './core/services/utils.service';
 import { Subscription } from 'rxjs';
@@ -13,18 +13,15 @@ import { WebsocketService } from './core/services/websocket.service';
 export class AppComponent implements OnInit {
 	isTestsLoading = false;
 
-	isTestStarted = false;
-	isTestStoped = false;
-	protected isTestInProgress(): boolean {
-		return this.isTestStarted && !this.isTestStoped;
-	}
-
 	tests: DIPTest[] = [];
 	selectedTest: DIPTest | undefined;
 
 	logFileContent: any = '';
 	statusFileContent: any = '';
 	ioFileContent: any = '';
+	currentExecution: any = '';
+
+	currentTestStatus: ExecutionStatus = ExecutionStatus.UNDEFINED;
 
 	private subscription!: Subscription;
 	constructor(private websocketService: WebsocketService, private utilsService: UtilsService) { }
@@ -44,7 +41,9 @@ export class AppComponent implements OnInit {
 			},
 			error: (err) => {
 				console.error('ERROR - listen websocket', err);
-				this.utilsService.showSnackMessage('ERROR - listen websocket : '+err, 'OK');
+				const error = typeof err === 'string' ? err : err;
+				this.utilsService.showSnackMessage('ERROR - listen websocket : '+error, 'OK');
+				this.isTestsLoading = false;
 			},
 			complete: () => {
 				console.log('listen websocket complete');
@@ -56,11 +55,16 @@ export class AppComponent implements OnInit {
 	onSelectChange(test: DIPTest): void {
 		this.selectedTest = test;
 	}
-	onStartTest(test: DIPTest): void {
-		console.log('start Test', test);
-	}
-	onStopTest(test: DIPTest): void {
-		console.log('stop test', test);
+	onExecuteTest(arg: {action: string, test: DIPTest}): void {
+		console.log('start Test', arg.action, arg.test);
+		this.websocketService.sendMessage({
+			sender: 'client',
+			type: 'execTest',
+			data: {
+				action: arg.action,
+				test: arg.test
+			}
+		});
 	}
 
 	private distributeDatas(socketData: any): void {
@@ -71,12 +75,6 @@ export class AppComponent implements OnInit {
 			case 'message':
 				this.receiveMessage(socketData);					
 				break;
-			case 'startTest':
-				this.testStarted(socketData);
-				break;
-			case 'stopTest':
-				this.testStoped(socketData);
-				break;
 			case 'readLogFile':
 				this.readLogFile(socketData);
 				break;
@@ -85,6 +83,9 @@ export class AppComponent implements OnInit {
 				break;
 			case 'readIoFile':
 				this.readIoFile(socketData);
+				break;
+			case 'testExecuted':
+				this.testExecuted(socketData);
 				break;
 			default:
 				console.error('unknown type', socketData.type);
@@ -120,17 +121,6 @@ export class AppComponent implements OnInit {
 
 		this.utilsService.showSnackMessage(socketData.data.message, 'OK');
 	}
-
-	private testStarted(socketData: any): void {
-		console.log('testStarted', socketData);
-		this.isTestStarted = true;
-		this.isTestStoped = false;
-	}
-	private testStoped(socketData: any): void {
-		console.log('testStoped', socketData);
-		this.isTestStarted = false;
-		this.isTestStoped = true;
-	}
 	
 	private readLogFile(socketData: any): void {
 		// console.log('readLogFile', socketData);
@@ -151,5 +141,10 @@ export class AppComponent implements OnInit {
 			return;
 		}
 		this.ioFileContent = JSON.parse(socketData.data);
+	}
+
+	private testExecuted(socketData: any): void {
+		console.log('testStarted', socketData);
+		this.currentExecution = socketData.data;
 	}
 }

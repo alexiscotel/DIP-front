@@ -63,4 +63,8 @@ export class IoComponent implements OnInit, OnChanges {
 		this.infos = tmp;
 		console.log('tmp', tmp);
 	}
+
+	protected reload(): void {
+		// this.fileContent = '';
+	}
 }

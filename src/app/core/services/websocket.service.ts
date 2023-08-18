@@ -24,7 +24,7 @@ export class WebsocketService {
 					subscriber.next(data);
 				},
 				error: (err) => {
-					// console.error('Erreur WebSocket :', err);
+					console.error('Erreur WebSocket :', err);
 					subscriber.error(err);
 				},
 				complete: () => {

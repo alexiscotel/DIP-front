@@ -1,10 +1,6 @@
-import { Component, Input, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { DIPTest } from 'src/app/core/interfaces';
-import { HttpService } from 'src/app/core/services/http.service';
 import { WebsocketService } from 'src/app/core/services/websocket.service';
-
-import { Subscription } from 'rxjs';
-import { UtilsService } from 'src/app/core/services/utils.service';
 
 @Component({
   selector: 'app-logs',

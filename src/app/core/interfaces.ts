@@ -29,11 +29,10 @@ export interface Command {
 	status?: number;
 }
 
-export enum CommandStatus {
-	UNDEFINED = "UNDEFINED", // 
-	PAUSED = "PAUSED",       // 0
-	STARTED = "STARTED",     // 1
-	STOPED = "STOPED",       // -1
-	END = "END",             // 
-	ERROR = "ERROR",         //
+export enum ExecutionStatus {
+	UNDEFINED = "undefined", // 
+	PAUSED = "pause",       // 0
+	STARTED = "start",     // 1
+	STOPED = "stop",       // -1
+	ERROR = "error",         //
 }

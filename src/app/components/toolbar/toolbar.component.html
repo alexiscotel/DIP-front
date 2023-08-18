@@ -15,12 +15,14 @@
 			</mat-select>
 		</mat-form-field>
 	
-		<button mat-flat-button color="primary" (click)="OnStartTest()">
+		<button mat-flat-button color="primary" (click)="OnExecuteTest(execStatus.STARTED)">
 			Start
 		</button>
-		<button mat-flat-button color="warn" (click)="OnStopTest()">
+		<button mat-flat-button color="accent" (click)="OnExecuteTest(execStatus.PAUSED)">
+			Pause
+		</button>
+		<button mat-flat-button color="warn" (click)="OnExecuteTest(execStatus.STOPED)">
 			Stop
 		</button>
-
 	</div>
 </mat-toolbar>

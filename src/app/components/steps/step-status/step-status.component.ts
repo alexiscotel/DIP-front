@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommandStatus } from 'src/app/core/interfaces';
+import { ExecutionStatus } from 'src/app/core/interfaces';
 
 @Component({
 	selector: 'app-step-status',
@@ -8,29 +8,29 @@ import { CommandStatus } from 'src/app/core/interfaces';
 })
 export class StepStatusComponent {
 
-	@Input() status!: CommandStatus | number;
+	@Input() status!: ExecutionStatus | number;
 
 	constructor() { }
 
-	protected getNodeStatus(): CommandStatus {
+	protected getNodeStatus(): ExecutionStatus {
 		if(!this.status){
-			return CommandStatus.UNDEFINED;
+			return ExecutionStatus.UNDEFINED;
 		}
 
 		if(typeof this.status === 'string'){
 			return this.status;
 		}else if(typeof this.status === 'number'){
 			if(this.status < 0){
-				return CommandStatus.STOPED;
+				return ExecutionStatus.STOPED;
 			}else if(this.status > 0){
-				return CommandStatus.STARTED;
+				return ExecutionStatus.STARTED;
 			}else if(this.status === 0){
-				return CommandStatus.PAUSED;
+				return ExecutionStatus.PAUSED;
 			}else{
-				return CommandStatus.STOPED;
+				return ExecutionStatus.STOPED;
 			}
 		}else{
-			return CommandStatus.UNDEFINED;
+			return ExecutionStatus.UNDEFINED;
 		}
 	}
 }

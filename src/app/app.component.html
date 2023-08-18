@@ -3,28 +3,34 @@
 		<app-toolbar 
 			[tests]="tests"
 			[isLoading]="isTestsLoading"
-			[isTestStarted]="isTestStarted"
-			[isTestStoped]="isTestStoped"
-			(selectChange)="onSelectChange($event)" 
-			(startTest)="onStartTest($event)"
-			(stopTest)="onStopTest($event)"
+			(selectChange)="onSelectChange($event)"
+			(executeTest)="onExecuteTest($event)"
+			[testExecutionStatus]="currentTestStatus"
 		></app-toolbar>
 	</div>
-	<mat-progress-bar mode="indeterminate" *ngIf="isTestInProgress()"></mat-progress-bar>
+	<mat-progress-bar mode="indeterminate" *ngIf="false"></mat-progress-bar>
 	<div class="main">
 		<div class="content">
 			
 			<div class="content-top">
 				<app-io [test]="selectedTest" [fileContent]="ioFileContent"></app-io>
 			</div>
-			<!-- <div class="content-bottom">
+			<div class="content-bottom">
 				<app-logs [test]="selectedTest" [fileContent]="logFileContent"></app-logs>
-			</div> -->
+			</div>
 
 		</div>
-		<!-- <div class="sidebar">
-			<app-steps [test]="selectedTest" [fileContent]="statusFileContent"></app-steps>
-		</div> -->
+		<div class="sidebar">
+			<!-- <app-steps [test]="selectedTest" [fileContent]="statusFileContent"></app-steps> -->
+
+			<div class="sidebar-top">
+				<app-steps [test]="selectedTest" [fileContent]="statusFileContent"></app-steps>
+			</div>
+			<div class="sidebar-bottom" *ngIf="currentExecution">
+				<app-exec [fileContent]="currentExecution"></app-exec>
+			</div>
+
+		</div>
 	</div>
 	
 </div>

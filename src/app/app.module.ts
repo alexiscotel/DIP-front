@@ -21,6 +21,7 @@ import { IoComponent } from './components/io/io.component';
 
 
 import { HttpService } from './core/services/http.service';
+import { ExecComponent } from './components/exec/exec.component';
 
 
 
@@ -34,6 +35,7 @@ import { HttpService } from './core/services/http.service';
 		StepsComponent,
   		StepStatusComponent,
   		IoComponent,
+    ExecComponent,
 	],
 	imports: [
 		HttpClientModule,

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { DIPTest, TestStatus, StepStatus, Command, CommandStatus } from 'src/app/core/interfaces';
+import { DIPTest, TestStatus, StepStatus, Command, ExecutionStatus } from 'src/app/core/interfaces';
 
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
@@ -31,7 +31,7 @@ export class StepsComponent implements OnInit, OnChanges {
 	treeControl = new NestedTreeControl<TreeNode>(node => node.children);
 	dataSource = new MatTreeNestedDataSource<any>();
 
-	// commandStatus: CommandStatus = CommandStatus.STOPED;
+	// commandStatus: ExecutionStatus = ExecutionStatus.STOPED;
 
 	isLoading: boolean = false;
 
@@ -98,17 +98,17 @@ export class StepsComponent implements OnInit, OnChanges {
 
 	// MAT TREE
 	protected hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
-	// protected getNodeStatus(status: number): CommandStatus {
+	// protected getNodeStatus(status: number): ExecutionStatus {
 	// 	console.log('getNodeStatus', status);
 
 	// 	if(status < 0){
-	// 		return CommandStatus.STOPED;
+	// 		return ExecutionStatus.STOPED;
 	// 	}else if(status > 0){
-	// 		return CommandStatus.STARTED;
+	// 		return ExecutionStatus.STARTED;
 	// 	}else if(status === 0){
-	// 		return CommandStatus.PAUSED;
+	// 		return ExecutionStatus.PAUSED;
 	// 	}else{
-	// 		return CommandStatus.STOPED;
+	// 		return ExecutionStatus.STOPED;
 	// 	}
 	// }
 	protected updateTree(): void {

@@ -7,7 +7,7 @@
 		</h2>
 		<mat-spinner *ngIf="isLoading" class="mat-spinner"></mat-spinner>
 	</div>
-	<div class="body">
+	<div class="body" *ngIf="fileContent">
 		<pre> {{fileContent}} </pre>
 	</div>
 	<div class="actions">

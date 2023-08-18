@@ -2,7 +2,7 @@
 	<div class="header">
 		<h2>Steps</h2>
 	</div>
-	<div class="body">
+	<div class="body" *ngIf="fileContent">
 
 		<mat-tree #mytree class="tree" [dataSource]="dataSource" [treeControl]="treeControl">
 			<mat-tree-node *matTreeNodeDef="let childNode" matTreeNodeToggle>
@@ -28,7 +28,7 @@
 
 	</div>
 	<div class="actions">
-		<button mat-button (click)="clearStatus()">Clear</button>
+		<button mat-button color="primary" [disabled]="isLoading" (click)="clearStatus()">Clear</button>
 	</div>
 	<div class="footer">
 		<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>

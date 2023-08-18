@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { delay, Observable } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { DIPTest } from 'src/app/core/interfaces';
+import { DIPTest, ExecutionStatus } from 'src/app/core/interfaces';
 import { HttpService } from 'src/app/core/services/http.service';
 import { environment } from 'src/app/environments/environment';
 
@@ -12,9 +12,10 @@ import { environment } from 'src/app/environments/environment';
 })
 export class ToolbarComponent implements OnInit {
 	appName: string = environment.appName;
+	protected execStatus = ExecutionStatus;
+
 	@Input() isLoading: boolean = false;
-	@Input() isTestStarted: boolean = false;
-	@Input() isTestStoped: boolean = false;
+	@Input() testExecutionStatus!: ExecutionStatus
 
 	@Input() tests: DIPTest[] | null = [];
 	@Output() selectChange = new EventEmitter<DIPTest>();
@@ -24,8 +25,11 @@ export class ToolbarComponent implements OnInit {
 	protected headerForm!: FormGroup;
 	protected testCtrl!: FormControl;
 
-	@Output() startTest = new EventEmitter<DIPTest>();
-	@Output() stopTest = new EventEmitter<DIPTest>();
+	// @Output() startTest = new EventEmitter<DIPTest>();
+	// @Output() pauseTest = new EventEmitter<DIPTest>();
+	// @Output() resumeTest = new EventEmitter<DIPTest>();
+	// @Output() stopTest = new EventEmitter<DIPTest>();
+	@Output() executeTest = new EventEmitter<{action: string, test: DIPTest}>();
 
 
 	socketConnections$: Observable<any> | undefined;
@@ -56,12 +60,28 @@ export class ToolbarComponent implements OnInit {
 		}
 	}
 
-	OnStartTest(): void {
-		this.startTest.emit(this.selectedTest);
-	}
-	OnStopTest(): void {
-		this.stopTest.emit(this.selectedTest);
-	}
+	// OnStartTest(): void {
+	// 	this.startTest.emit(this.selectedTest);
+	// }
+	// OnStopTest(): void {
+	// 	this.stopTest.emit(this.selectedTest);
+	// }
+	// OnPauseTest(): void {
+	// 	this.pauseTest.emit(this.selectedTest);
+	// }
+	// OnResumeTest(): void {
+	// 	this.resumeTest.emit(this.selectedTest);
+	// }
 
-
+	OnExecuteTest(action: ExecutionStatus): void {
+		if(!this.selectedTest){
+			console.warn('No test selected');
+			return;
+		}
+		const emitData = {
+			action,
+			test: this.selectedTest
+		}
+		this.executeTest.emit(emitData);
+	}
 }

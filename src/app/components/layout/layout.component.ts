@@ -8,50 +8,50 @@ import { Component, AfterContentInit, ContentChild, ContentChildren, ElementRef,
 export class LayoutComponent implements AfterContentInit, AfterViewInit {
 
 	@ContentChildren('header', { read: ElementRef }) headerContents: ElementRef | undefined;
-	// @ContentChildren('body', { read: ElementRef }) bodyContent: ElementRef | undefined;
-	// @ContentChildren('actions', { read: ElementRef }) actionsContent: ElementRef | undefined;
-	// @ContentChildren('footer', { read: ElementRef }) footerContent: ElementRef | undefined;
+	@ContentChildren('body', { read: ElementRef }) bodyContents: ElementRef | undefined;
+	@ContentChildren('actions', { read: ElementRef }) actionsContents: ElementRef | undefined;
+	@ContentChildren('footer', { read: ElementRef }) footerContents: ElementRef | undefined;
 
-	@ContentChild('header') headerContent: ElementRef | undefined;
-	@ContentChild('body') bodyContent: ElementRef | undefined;
-	@ContentChild('actions') actionsContent: ElementRef | undefined;
-	@ContentChild('footer') footerContent: ElementRef | undefined;
+	// @ContentChild('header') headerContent: ElementRef | undefined;
+	// @ContentChild('body') bodyContent: ElementRef | undefined;
+	// @ContentChild('actions') actionsContent: ElementRef | undefined;
+	// @ContentChild('footer') footerContent: ElementRef | undefined;
 
 	@Input() actionAlign: 'start' | 'end' = 'start';
 
 	ngAfterContentInit() {
-		console.log('headerContent', this.headerContent);
-		if (this.headerContent) {
-		  console.log("Le contenu de header est utilisé !");
-		} else {
-		  console.log("Le contenu de header n'est pas utilisé.");
-		}
+		// console.log('headerContent', this.headerContent);
+		// if (this.headerContent) {
+		//   console.log("Le contenu de header est utilisé !");
+		// } else {
+		//   console.log("Le contenu de header n'est pas utilisé.");
+		// }
 	}
 	ngAfterViewInit(): void {
-		console.log('headerContent', this.headerContent);
-		console.log('headerContents', this.headerContents);
-		// console.log('bodyContent', this.bodyContent);
-		// console.log('actionsContent', this.actionsContent);
-		// console.log('footerContent', this.footerContent);
+		// console.log('headerContent', this.headerContent);
+		// console.log('headerContents', this.headerContents);
+		// // console.log('bodyContent', this.bodyContent);
+		// // console.log('actionsContent', this.actionsContent);
+		// // console.log('footerContent', this.footerContent);
 	}
 
 	hasHeader(): boolean {
-		return !!this.headerContent;
+		return !!this.headerContents;
 	}
 
 	hasBody(): boolean {
 		// return !!this.bodyContent;
-		return !!this.bodyContent;
+		return !!this.bodyContents;
 	}
 
 	hasActions(): boolean {
 		// console.log('hasActions', this.actionsContent)
 		// return !!this.actionsContent;
-		return !!this.actionsContent;
+		return !!this.actionsContents;
 	}
 
 	hasFooter(): boolean {
 		// return !!this.footerContent;
-		return !!this.footerContent;
+		return !!this.footerContents;
 	}
 }
